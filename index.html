@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Предлоги причины и цели</title>
+<style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#1a1225;color:#f0e8f8}
+.spin{width:36px;height:36px;border:3px solid #4a3060;border-top-color:#ce93d8;border-radius:50%;animation:s .7s linear infinite;margin:0 auto 12px}
+@keyframes s{to{transform:rotate(360deg)}}</style></head>
+<body><div style="text-align:center"><div class="spin"></div><div id="m">Загрузка…</div></div>
+<script>
+(async()=>{
+  try{
+    const a=await(await fetch('rp0.txt?v=1')).text();
+    const b=await(await fetch('rp1.txt?v=1')).text();
+    document.open();document.write(a+b);document.close();
+  }catch(e){document.getElementById('m').textContent='Ошибка: '+e}
+})();
+</script></body></html>
