@@ -1,16 +1,420 @@
 <!DOCTYPE html>
-<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Предлоги причины и цели</title>
-<style>body{font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#1a1225;color:#f0e8f8}
-.spin{width:36px;height:36px;border:3px solid #4a3060;border-top-color:#ce93d8;border-radius:50%;animation:s .7s linear infinite;margin:0 auto 12px}
-@keyframes s{to{transform:rotate(360deg)}}</style></head>
-<body><div style="text-align:center"><div class="spin"></div><div id="m">Загрузка…</div></div>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6a1b9a">
+<title>Предлоги причины и цели · Practice</title>
+<style>
+:root {
+  --p:#6a1b9a; --p2:#8e24aa; --s:#2e7d32; --e:#c62828; --w:#ef6c00;
+  --bg:#f5f0fa; --c:#fff; --t:#1a1225; --m:#5a4d66; --b:#d4c4e0;
+  --ok-bg:rgba(46,125,50,.12); --bad-bg:rgba(198,40,40,.12);
+}
+[data-theme=dark] {
+  --p:#ce93d8; --p2:#ba68c8; --s:#66bb6a; --e:#ef5350; --w:#ffb74d;
+  --bg:#121018; --c:#1c1626; --t:#f0e8f8; --m:#a898b8; --b:#3a3048;
+  --ok-bg:rgba(102,187,106,.15); --bad-bg:rgba(239,83,80,.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+button,input,select{font-family:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--t);line-height:1.45;padding-bottom:72px;min-height:100vh}
+header{background:linear-gradient(135deg,#4a148c,#6a1b9a 55%,#8e24aa);color:#fff;padding:14px 12px 10px;text-align:center;position:sticky;top:0;z-index:40;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+header h1{font-size:1.12rem;font-weight:700}
+header p{opacity:.9;font-size:.74rem;margin-top:3px}
+.tools{margin-top:7px}
+.tools button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;padding:5px 11px;border-radius:16px;font-size:.71rem;font-weight:600;margin:0 2px}
+.tabs{display:flex;flex-wrap:wrap;gap:5px;padding:8px 6px;justify-content:center;background:var(--c);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:30}
+.tab{padding:6px 10px;border:2px solid var(--b);border-radius:18px;background:var(--c);font-size:.7rem;font-weight:600;color:var(--p)}
+.tab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.sec{display:none;max-width:720px;margin:0 auto;padding:10px 12px 24px}
+.sec.active{display:block}
+.card{background:var(--c);border-radius:12px;padding:14px;margin-bottom:11px;border:1px solid var(--b)}
+.card h2{font-size:.98rem;color:var(--p);margin-bottom:6px}
+.hint{font-size:.77rem;color:var(--m);margin-bottom:10px}
+.rule{padding:10px;border-radius:8px;margin-bottom:8px;border-left:5px solid var(--p);background:var(--bg);font-size:.86rem}
+.rule b{display:block;margin-bottom:3px;color:var(--p)}
+.ex{font-style:italic;color:var(--m);font-size:.8rem;margin-top:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+.box{background:var(--bg);border-radius:8px;padding:10px;font-size:.82rem}
+.box b{color:var(--p)}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:8px 0}
+th,td{border:1px solid var(--b);padding:6px 8px;text-align:left}
+th{background:var(--bg);color:var(--p)}
+.q-item{padding:12px 0;border-bottom:1px solid var(--b)}
+.q-item:last-child{border-bottom:none}
+.q-num{font-size:.7rem;font-weight:700;color:var(--p);margin-bottom:4px}
+.q-text{font-weight:600;font-size:.93rem;margin-bottom:8px;line-height:1.4}
+.opts{display:flex;flex-direction:column;gap:5px}
+.opt{padding:10px 12px;border:2px solid var(--b);border-radius:8px;background:var(--c);text-align:left;font-size:.87rem;font-weight:500}
+.opt:hover{border-color:var(--p)}
+.opt.selected{border-color:var(--p);background:rgba(106,27,154,.08)}
+[data-theme=dark] .opt.selected{background:rgba(206,147,216,.12)}
+.opt.ok{border-color:var(--s);background:var(--ok-bg);color:var(--s)}
+.opt.bad{border-color:var(--e);background:var(--bad-bg);color:var(--e)}
+.opt:disabled{pointer-events:none}
+.fb{font-size:.79rem;margin-top:6px;min-height:1.15em}
+.fb.ok{color:var(--s)}.fb.bad{color:var(--e)}
+.btn{padding:10px 15px;border:none;border-radius:8px;background:var(--p);color:#fff;font-weight:600;font-size:.86rem;margin:3px 2px}
+.btn.sec{background:var(--c);color:var(--p);border:2px solid var(--b)}
+.score{text-align:center;font-weight:700;font-size:1.08rem;margin:11px 0 4px}
+.progress-bar{height:8px;background:var(--b);border-radius:4px;overflow:hidden;margin:8px 0 4px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--p),var(--s));border-radius:4px;transition:width .3s}
+.sticky-actions{position:sticky;bottom:0;background:var(--c);border-top:1px solid var(--b);padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;z-index:15}
+.gap-wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;font-size:.93rem;line-height:1.75}
+.gap-wrap select,.gap-wrap input{padding:6px 8px;border:2px solid var(--b);border-radius:6px;background:var(--c);font-size:.86rem;min-width:100px}
+.gap-wrap select.ok,.gap-wrap input.ok{border-color:var(--s)}
+.gap-wrap select.bad,.gap-wrap input.bad{border-color:var(--e)}
+.err-box{background:var(--bg);border-radius:8px;padding:10px 12px;margin:6px 0;font-size:.9rem}
+.err-box .wrong{color:var(--e);text-decoration:line-through;margin-right:6px}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+.tag.reason{background:rgba(106,27,154,.15);color:var(--p)}
+.tag.purpose{background:rgba(46,125,50,.15);color:var(--s)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Предлоги причины и цели</h1>
+  <p>because of · due to · for · to · in order to · thanks to</p>
+  <div class="tools">
+    <button type="button" onclick="toggleTheme()">🌓 Тема</button>
+    <button type="button" onclick="resetAll()">↺ Сброс</button>
+  </div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div id="sections"></div>
+
 <script>
-(async()=>{
-  try{
-    const a=await(await fetch('rp0.txt?v=1')).text();
-    const b=await(await fetch('rp1.txt?v=1')).text();
-    document.open();document.write(a+b);document.close();
-  }catch(e){document.getElementById('m').textContent='Ошибка: '+e}
-})();
-</script></body></html>
+const STORE = 'prepReasonPurpose_v1';
+
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toggleTheme(){const d=document.documentElement;d.setAttribute('data-theme',d.getAttribute('data-theme')==='dark'?'':'dark');}
+function loadStore(){try{return JSON.parse(localStorage.getItem(STORE)||'{}');}catch(e){return{};}}
+function saveStore(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){}}
+function persist(key,ok,total){const d=loadStore();d[key]={ok,total,at:new Date().toISOString()};saveStore(d);}
+function norm(s){return String(s).toLowerCase().replace(/[’']/g,"'").replace(/[.,!?]/g,'').replace(/\s+/g,' ').trim();}
+
+const THEORY = `
+<div class="card">
+  <h2>Два ключевых вопроса</h2>
+  <div class="grid2">
+    <div class="box"><b>Why? — Причина</b><br>Почему это произошло?<div class="ex">because of · due to · owing to · thanks to · on account of</div></div>
+    <div class="box"><b>What for? — Цель</b><br>Зачем? С какой целью?<div class="ex">for · to · in order to · so as to · with the aim of</div></div>
+  </div>
+</div>
+<div class="card">
+  <h2>Предлоги причины (Why?)</h2>
+  <div class="rule"><b>because of</b> — универсальный, нейтральный · + сущ. / V-ing
+    <div class="ex">We cancelled the trip because of bad weather.</div></div>
+  <div class="rule"><b>due to</b> — часто после be · нейтральный
+    <div class="ex">The match was postponed due to heavy rain.</div></div>
+  <div class="rule"><b>owing to</b> — более формальный
+    <div class="ex">Owing to his experience, he got the job.</div></div>
+  <div class="rule"><b>thanks to</b> — «благодаря» · положительный оттенок
+    <div class="ex">Thanks to your support, I passed the exam.</div></div>
+  <div class="rule"><b>on account of</b> — формальный · часто негативный
+    <div class="ex">The event was cancelled on account of low attendance.</div></div>
+  <table>
+    <tr><th>Предлог</th><th>Стиль</th><th>Оттенок</th></tr>
+    <tr><td>because of</td><td>нейтральный</td><td>универсальный</td></tr>
+    <tr><td>due to</td><td>нейтральный</td><td>часто после be</td></tr>
+    <tr><td>owing to</td><td>формальный</td><td>нейтральный</td></tr>
+    <tr><td>thanks to</td><td>нейтральный</td><td>положительный</td></tr>
+    <tr><td>on account of</td><td>формальный</td><td>часто негативный</td></tr>
+  </table>
+</div>
+<div class="card">
+  <h2>Предлоги цели (What for?)</h2>
+  <div class="rule"><b>for + существительное / V-ing</b>
+    <div class="ex">I came here for an interview. · This machine is for cutting metal.</div></div>
+  <div class="rule"><b>to + инфинитив</b> — самый частый способ
+    <div class="ex">I study English to travel abroad.</div></div>
+  <div class="rule"><b>in order to</b> — формальнее, подчёркивает цель
+    <div class="ex">He worked hard in order to get a promotion.</div></div>
+  <div class="rule"><b>so as to / so as not to</b> — формальный, часто с отрицанием
+    <div class="ex">She left early so as not to be late.</div></div>
+  <div class="rule"><b>with the aim of / with the purpose of + V-ing</b> — официальный стиль
+    <div class="ex">She went to London with the aim of improving her English.</div></div>
+</div>
+<div class="card">
+  <h2>Важные различия</h2>
+  <table>
+    <tr><th>Конструкция</th><th>Структура</th><th>Пример</th></tr>
+    <tr><td><b>because</b></td><td>+ предложение</td><td>I stayed home because it was raining.</td></tr>
+    <tr><td><b>because of</b></td><td>+ сущ. / герундий</td><td>I stayed home because of the rain.</td></tr>
+    <tr><td><b>to</b></td><td>+ инфинитив (цель)</td><td>I went there to meet my friend.</td></tr>
+    <tr><td><b>for</b></td><td>+ сущ. (предназначение)</td><td>I went there for a meeting.</td></tr>
+  </table>
+  <div class="rule"><b>Типичные ошибки</b>
+    <div class="ex">✗ for buy milk → ✓ to buy milk<br>
+    ✗ thanks to the bad weather (негатив) → ✓ because of / due to<br>
+    ✗ due to she missed the bus → ✓ because she missed… / due to missing…</div>
+  </div>
+  <button class="btn" onclick="go('reason')">К упражнениям →</button>
+</div>`;
+
+const DATA = {
+  reason: [
+    {q:'The game was cancelled ___ bad weather.', a:'because of', opts:['because','because of','for','to']},
+    {q:'The match was postponed ___ heavy rain.', a:'due to', opts:['due to','thanks to','for','in order to']},
+    {q:'___ your help, I passed the exam.', a:'Thanks to', opts:['Thanks to','Due to','On account of','Because']},
+    {q:'He was late ___ the traffic.', a:'because of', opts:['because','because of','to','so as to']},
+    {q:'___ technical issues, the site is down.', a:'Due to', opts:['Due to','Thanks to','For','In order to']},
+    {q:'The event was cancelled ___ low attendance.', a:'on account of', opts:['on account of','thanks to','for','to']},
+    {q:'She cried ___ happiness.', a:'because of', opts:['because of','because','for','to']},
+    {q:'___ his experience, he got the job quickly.', a:'Owing to', opts:['Owing to','Thanks to','For','So as to']}
+  ],
+  purpose: [
+    {q:'I study English ___ travel abroad.', a:'to', opts:['to','for','because of','due to']},
+    {q:'I came here ___ an interview.', a:'for', opts:['for','to','because of','in order to']},
+    {q:'He worked hard ___ get a promotion.', a:'in order to', opts:['in order to','because of','for','due to']},
+    {q:'She left early ___ not to be late.', a:'so as', opts:['so as','because of','for','thanks to']},
+    {q:'This machine is ___ cutting metal.', a:'for', opts:['for','to','because of','in order to']},
+    {q:'She bought flowers ___ her mother.', a:'for', opts:['for','to','because of','due to']},
+    {q:'We are saving money ___ a new house.', a:'for', opts:['for','to','because of','owing to']},
+    {q:'She went to London ___ improving her English.', a:'with the aim of', opts:['with the aim of','because of','for to','due to']}
+  ],
+  contrast: [
+    {q:'I stayed home ___ it was raining.', a:'because', opts:['because','because of','due to','for']},
+    {q:'I stayed home ___ the rain.', a:'because of', opts:['because of','because','to','for']},
+    {q:'I went there ___ meet my friend.', a:'to', opts:['to','for','because of','due to']},
+    {q:'I went there ___ a meeting.', a:'for', opts:['for','to','because','due to']},
+    {q:'She was late ___ she missed the bus.', a:'because', opts:['because','because of','due to','for']},
+    {q:'She was late ___ missing the bus.', a:'due to', opts:['due to','because','to','for']}
+  ],
+  gaps: [
+    {text:['The flight was delayed ',' bad weather.'], a:['because of'], opts:[['because','because of','for']]},
+    {text:['I went to the shop ',' buy milk.'], a:['to'], opts:[['to','for','because of']]},
+    {text:['',' your advice, I got the job.'], a:['Thanks to'], opts:[['Thanks to','Due to','For']]},
+    {text:['He spoke quietly ',' wake the baby.'], a:['so as not to'], opts:[['so as not to','for not','because of not']]},
+    {text:['This tool is ',' opening bottles.'], a:['for'], opts:[['for','to','because of']]},
+    {text:['The delay was ',' circumstances beyond our control.'], a:['owing to'], opts:[['owing to','thanks to','for']]}
+  ],
+  error: [
+    {wrong:'I went to the shop for buy milk.', right:'I went to the shop to buy milk.'},
+    {wrong:'Thanks to the bad weather we stayed home.', right:'Because of the bad weather we stayed home.'},
+    {wrong:'He studies hard for pass the exam.', right:'He studies hard to pass the exam.'},
+    {wrong:'She was late due to she missed the bus.', right:'She was late because she missed the bus.'},
+    {wrong:'I stayed home because of it was raining.', right:'I stayed home because it was raining.'}
+  ],
+  mixed: [
+    {q:'The project was launched ___ helping students.', a:'with the aim of', opts:['with the aim of','because of','for','thanks to']},
+    {q:'___ the strike, the trains were cancelled.', a:'On account of', opts:['On account of','Thanks to','For','To']},
+    {q:'I need a pen ___ write a note.', a:'to', opts:['to','for','because of','due to']},
+    {q:'The road is closed ___ roadworks.', a:'due to', opts:['due to','thanks to','for','in order to']},
+    {q:'She saved money ___ buy a new laptop.', a:'to', opts:['to','for','because of','owing to']},
+    {q:'___ hard work, she succeeded.', a:'Thanks to', opts:['Thanks to','On account of','For','So as to']}
+  ]
+};
+
+let state = {};
+
+const TABS = [
+  ['theory','Теория'],
+  ['reason','Причина'],
+  ['purpose','Цель'],
+  ['contrast','because/to'],
+  ['gaps','Пропуски'],
+  ['error','Ошибки'],
+  ['mixed','Микс'],
+  ['result','Итог']
+];
+
+function buildUI(){
+  document.getElementById('tabs').innerHTML = TABS.map(([id,lab])=>
+    `<button class="tab" data-t="${id}" onclick="go('${id}')">${lab}</button>`).join('');
+  const sec = document.getElementById('sections');
+  sec.innerHTML = `
+    <section class="sec" id="theory">${THEORY}</section>
+    ${['reason','purpose','contrast','mixed'].map(k=>`
+      <section class="sec" id="${k}">
+        <div class="card">
+          <h2>${label(k)}</h2>
+          <p class="hint">${hint(k)}</p>
+          <div class="progress-bar"><div class="progress-fill" id="${k}Prog" style="width:0"></div></div>
+          <div id="${k}Box"></div>
+          <div class="score" id="${k}Score"></div>
+        </div>
+        <div class="sticky-actions">
+          <button class="btn" onclick="checkTopic('${k}')">Проверить</button>
+          <button class="btn sec" onclick="renderTopic('${k}')">Заново</button>
+        </div>
+      </section>`).join('')}
+    <section class="sec" id="gaps">
+      <div class="card"><h2>Пропуски</h2><p class="hint">Выберите подходящий предлог / конструкцию.</p>
+      <div class="progress-bar"><div class="progress-fill" id="gapsProg" style="width:0"></div></div>
+      <div id="gapsBox"></div><div class="score" id="gapsScore"></div></div>
+      <div class="sticky-actions"><button class="btn" onclick="checkGaps()">Проверить</button><button class="btn sec" onclick="renderGaps()">Заново</button></div>
+    </section>
+    <section class="sec" id="error">
+      <div class="card"><h2>Исправь ошибки</h2><p class="hint">Напишите правильный вариант.</p>
+      <div id="errorBox"></div><div class="score" id="errorScore"></div></div>
+      <div class="sticky-actions"><button class="btn" onclick="checkError()">Проверить</button><button class="btn sec" onclick="renderError()">Заново</button></div>
+    </section>
+    <section class="sec" id="result"><div class="card"><h2>Итог</h2><div id="resultBox"></div></div></section>`;
+  ['reason','purpose','contrast','mixed'].forEach(renderTopic);
+  renderGaps(); renderError();
+  go('theory');
+}
+
+function label(k){
+  return {reason:'Причина (Why?)',purpose:'Цель (What for?)',contrast:'because / because of · to / for',mixed:'Микс'}[k]||k;
+}
+function hint(k){
+  return {
+    reason:'Выберите предлог причины.',
+    purpose:'Выберите конструкцию цели.',
+    contrast:'Различайте because vs because of и to vs for.',
+    mixed:'Причина и цель вместе.'
+  }[k]||'';
+}
+
+function go(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.t===id));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='result') showResult();
+}
+
+function renderTopic(key){
+  const items=DATA[key].map((it,i)=>({...it,_i:i,_opts:shuffle(it.opts)}));
+  state[key]={items, answers:{}, checked:false};
+  document.getElementById(key+'Box').innerHTML=items.map((it,idx)=>`
+    <div class="q-item" data-i="${idx}">
+      <div class="q-num">${idx+1}</div>
+      <div class="q-text">${escapeHtml(it.q)}</div>
+      <div class="opts">${it._opts.map(o=>`<button type="button" class="opt" data-v="${escapeHtml(o)}" onclick="selectOpt('${key}',${idx},this)">${escapeHtml(o)}</button>`).join('')}</div>
+      <div class="fb" id="${key}Fb${idx}"></div>
+    </div>`).join('');
+  document.getElementById(key+'Score').textContent='';
+  document.getElementById(key+'Prog').style.width='0';
+}
+
+function selectOpt(key,idx,btn){
+  const st=state[key];
+  if(st.checked) return;
+  st.answers[idx]=btn.dataset.v;
+  btn.parentElement.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function checkTopic(key){
+  const st=state[key];
+  if(!st) return;
+  st.checked=true;
+  let ok=0;
+  st.items.forEach((it,idx)=>{
+    const ans=st.answers[idx];
+    const correct=ans===it.a;
+    if(correct) ok++;
+    const item=document.querySelector(`#${key}Box .q-item[data-i="${idx}"]`);
+    item.querySelectorAll('.opt').forEach(b=>{
+      b.disabled=true;
+      if(b.dataset.v===it.a) b.classList.add('ok');
+      else if(b.dataset.v===ans && !correct) b.classList.add('bad');
+    });
+    const fb=document.getElementById(key+'Fb'+idx);
+    fb.className='fb '+(correct?'ok':'bad');
+    fb.textContent=correct?'✓ Верно':`✗ ${it.a}`;
+  });
+  const total=st.items.length;
+  document.getElementById(key+'Score').textContent=`${ok} / ${total}`;
+  document.getElementById(key+'Prog').style.width=(ok/total*100)+'%';
+  persist(key,ok,total);
+}
+
+function renderGaps(){
+  const items=DATA.gaps.map((g,i)=>({...g,_i:i}));
+  state.gaps={items};
+  document.getElementById('gapsBox').innerHTML=items.map((g,idx)=>{
+    let html=`<div class="q-item"><div class="q-num">${idx+1}</div><div class="gap-wrap">`;
+    g.text.forEach((part,pi)=>{
+      html+=escapeHtml(part);
+      if(pi<g.a.length){
+        const opts=shuffle(g.opts[pi]);
+        html+=`<select data-g="${idx}" data-p="${pi}"><option value="">—</option>${opts.map(o=>`<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('')}</select>`;
+      }
+    });
+    html+=`</div><div class="fb" id="gapsFb${idx}"></div></div>`;
+    return html;
+  }).join('');
+  document.getElementById('gapsScore').textContent='';
+  document.getElementById('gapsProg').style.width='0';
+}
+
+function checkGaps(){
+  let ok=0,total=0;
+  state.gaps.items.forEach((g,idx)=>{
+    let all=true;
+    g.a.forEach((ans,pi)=>{
+      total++;
+      const sel=document.querySelector(`select[data-g="${idx}"][data-p="${pi}"]`);
+      if(sel.value===ans){ok++;sel.className='ok';}
+      else{all=false;sel.className='bad';}
+      sel.disabled=true;
+    });
+    const fb=document.getElementById('gapsFb'+idx);
+    fb.className='fb '+(all?'ok':'bad');
+    fb.textContent=all?'✓':'✗ '+g.a.join(' / ');
+  });
+  document.getElementById('gapsScore').textContent=`${ok} / ${total}`;
+  document.getElementById('gapsProg').style.width=(total?ok/total*100:0)+'%';
+  persist('gaps',ok,total);
+}
+
+function renderError(){
+  state.error={items:DATA.error};
+  document.getElementById('errorBox').innerHTML=DATA.error.map((e,idx)=>`
+    <div class="q-item">
+      <div class="q-num">${idx+1}</div>
+      <div class="err-box"><span class="wrong">${escapeHtml(e.wrong)}</span></div>
+      <input type="text" id="errIn${idx}" placeholder="Исправленный вариант" style="width:100%;padding:10px;border:2px solid var(--b);border-radius:8px;background:var(--c);margin-top:6px">
+      <div class="fb" id="errFb${idx}"></div>
+    </div>`).join('');
+  document.getElementById('errorScore').textContent='';
+}
+
+function checkError(){
+  let ok=0;
+  DATA.error.forEach((e,idx)=>{
+    const v=norm(document.getElementById('errIn'+idx).value);
+    const good=v===norm(e.right);
+    if(good) ok++;
+    const fb=document.getElementById('errFb'+idx);
+    fb.className='fb '+(good?'ok':'bad');
+    fb.textContent=good?'✓':e.right;
+    document.getElementById('errIn'+idx).disabled=true;
+  });
+  document.getElementById('errorScore').textContent=`${ok} / ${DATA.error.length}`;
+  persist('error',ok,DATA.error.length);
+}
+
+function showResult(){
+  const d=loadStore();
+  const keys=['reason','purpose','contrast','gaps','error','mixed'];
+  let html='<div class="rule"><b>Результаты</b></div>',sumOk=0,sumT=0;
+  keys.forEach(k=>{
+    const r=d[k];
+    if(r){sumOk+=r.ok;sumT+=r.total;html+=`<div class="box" style="margin:6px 0"><b>${label(k)}</b>: ${r.ok}/${r.total}</div>`;}
+    else html+=`<div class="box" style="margin:6px 0;opacity:.6"><b>${label(k)}</b>: ещё не проверено</div>`;
+  });
+  if(sumT) html+=`<div class="score">Всего: ${sumOk} / ${sumT} (${Math.round(sumOk/sumT*100)}%)</div>`;
+  document.getElementById('resultBox').innerHTML=html;
+}
+
+function resetAll(){
+  localStorage.removeItem(STORE);
+  buildUI();
+}
+
+buildUI();
+</script>
+</body>
+</html>
